@@ -12,7 +12,7 @@
                 <div class="card-tools">                                               
                   <div class="input-group input-group-sm" style="width: 300px;">                                                        
                     <div class="col-2">
-                        <a href="{{route('create_category')}}" class="btn btn-success">Tambah</a>                        
+                        <a href="{{route('create_article')}}" class="btn btn-success">Tambah</a>                        
                     </div>                    
                     <div class="col-3"></div>
                         <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -45,12 +45,12 @@
                           <td>{{$no}}</td>
                           <td>{{$item->kategori->nama}}</td>
                           <td>{{$item->judul}}</td>
-                          <td>{{$item->konten}}</td>
+                          <td>{{substr($item->konten,0,50).'...'}}</td>
                           <td>
-                          <form action="{{route('delete_category', $item->id)}}" method="POST">       
+                          <form action="{{route('delete_article', $item->id)}}" method="POST">       
                             {{ csrf_field() }}
                             {{ method_field('DELETE')}}                     
-                              <a href="{{route('edit_category', $item->id)}}" class="btn btn-warning">Edit</a>
+                              <a href="{{route('edit_article', $item->id)}}" class="btn btn-warning">Edit</a>
                               <button type="submit" class="btn btn-danger">Delete</button>
                           </form>                         
                           </td>

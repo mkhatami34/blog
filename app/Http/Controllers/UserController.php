@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Kategori;
 use App\Artikel;
+use Auth;
 
 class UserController extends Controller
 {
@@ -49,5 +50,35 @@ class UserController extends Controller
     function createArticle(){
         $category = Kategori::all();
         return view('user.artikel.createArtikel', compact('category'));
+    }
+
+    function storeArticle(Request $request){
+        Artikel::create([
+            'user_id' => Auth::id(),
+            'kategori_id' => $request->kategori_id,
+            'judul' => $request->judul,
+            'konten' => $request->konten
+        ]);
+        return redirect()->route('article');
+    }
+
+    function editArticle($id){
+        $artikel = Artikel::findOrFail($id);
+        $kategori = Kategori::all();
+        return view('user.artikel.editArtikel', compact('kategori','artikel'));
+    }
+
+    function updateArticle(Request $request, $id){
+        $artikel = Artikel::findOrFail($id);
+        $artikel->judul = $request->judul;
+        $artikel->kategori_id = $request->kategori_id;
+        $artikel->konten = $request->konten;
+        $artikel->save();
+        return redirect()->route('article');
+    }
+
+    function deleteArticle($id){
+        Artikel::findOrFail($id)->delete();
+        return redirect()->back();
     }
 }

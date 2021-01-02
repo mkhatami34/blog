@@ -13,13 +13,18 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="{{route('store_article')}}" method="POST">
+              <form action="{{route('update_article',$artikel->id)}}" method="POST">
               {{ csrf_field() }}
+              {{method_field('PATCH')}}
                 <div class="card-body">
                 <div class="form-group">
                         <label>Kategori</label>
                         <select name = "kategori_id" class="form-control">
-                        @foreach ($category as $item)
+                        @foreach ($kategori as $item)
+                            @if ($item->id==$artikel->kategori_id)
+                                <option selected value="{{$item->id}}">{{$item->nama}}</option>
+                                @continue  
+                            @endif
                             <option value="{{$item->id}}">{{$item->nama}}</option>
                             
                         @endforeach
@@ -27,11 +32,11 @@
                       </div>
                   <div class="form-group">
                     <label for="">Judul</label>
-                    <input type="text" class="form-control" placeholder="Masukkan Artikel" name="judul">
+                    <input value = "{{$artikel->judul}}"type="text" class="form-control" placeholder="Masukkan Artikel" name="judul">
                   </div>                  
                   <div class="form-group">
                     <label>Konten</label>
-                    <textarea class="form-control" rows="3" placeholder="Enter ..." name="konten"></textarea>
+                    <textarea class="form-control" rows="3" placeholder="Enter ..." name="konten">{{$artikel->konten}}</textarea>
                   </div>
                 </div>
                 <!-- /.card-body -->
